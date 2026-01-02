@@ -1,1 +1,1 @@
-# UB-PredicTernary
+# UbiqCore
