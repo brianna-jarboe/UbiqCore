@@ -7,6 +7,8 @@ import os
 import hashlib
 from util.functions.header import header
 from util.functions.filter_dataframe import filter_dataframe
+from urllib.parse import quote_plus, unquote_plus
+from streamlit_js_eval import streamlit_js_eval
 
 header(__file__.split('/')[-1].split('.')[0])
 st.header("Browse and Download")
@@ -47,6 +49,31 @@ if 'selected_rows' not in st.session_state:
 # Create a filtered dataframe
 filtered_df = filter_dataframe(df)
 
+# --- apply query params early so clicks that set query params rebuild/sort correctly ---
+params = st.query_params
+if params.get("filter_col") and params.get("filter_val"):
+    try:
+        col = params["filter_col"]
+        val = unquote_plus(params["filter_val"])
+        new_filter = {"column": col, "value": val}
+        # Always clear query params immediately to avoid repeated filter on rerun
+        st.query_params.clear()
+        # Remove all relevant session state to force a full rebuild
+        for k in [
+            "cached_display_df",
+            "last_view_signature",
+            "browse_table",
+            "cached_e2_cols",
+            "cached_e3_cols",
+        ]:
+            if k in st.session_state:
+                del st.session_state[k]
+        st.session_state["gene_filter"] = new_filter
+        st.rerun()
+    except Exception:
+        st.query_params.clear()
+# --- end new ---
+
 # Logic to determine if we need to rebuild the display dataframe.
 # We want to AVOID rebuilding local display_df if the user just clicked a checkbox,
 # as passing a new dataframe object to data_editor causes the scroll reset.
@@ -71,20 +98,24 @@ should_rebuild_display = bulk_action or view_changed or cache_missing
 
 # Process Select All / Deselect All logic BEFORE rebuilding
 if st.session_state.get('select_all_trigger'):
-    for idx in filtered_df.index:
+    # Select all rows currently displayed in the table (after all filtering and sorting)
+    if "cached_display_df" in st.session_state:
+        display_indices = st.session_state["cached_display_df"].index
+    else:
+        display_indices = filtered_df.index
+    for idx in display_indices:
         st.session_state['selected_rows'].add(idx)
     st.session_state['select_all_trigger'] = False
-    # Clear editor state to force UI update
     if "browse_table" in st.session_state:
         del st.session_state["browse_table"]
 
 if st.session_state.get('deselect_all_trigger'):
-    for idx in filtered_df.index:
-        st.session_state['selected_rows'].discard(idx)
+    # Deselect ALL rows (not just displayed) by clearing the set
+    st.session_state['selected_rows'].clear()
     st.session_state['deselect_all_trigger'] = False
-     # Clear editor state to force UI update
     if "browse_table" in st.session_state:
         del st.session_state["browse_table"]
+    streamlit_js_eval(js_expressions="parent.window.location.reload()")
 
 # Prepare URL columns function (defined outside rewrite block for cleanliness)
 def add_uniprot_url_columns(df, id_column, prefix):
@@ -107,57 +138,107 @@ if should_rebuild_display:
     for idx in temp_df.index:
         if idx in st.session_state['selected_rows']:
             temp_df.loc[idx, 'Selected'] = True
-    
-    # 2. Add URL columns and format
+
+    # --- Apply gene filter EARLY on the original columns (so equality checks use raw values) ---
+    if 'gene_filter' in st.session_state:
+        filter_info = st.session_state['gene_filter']
+        if filter_info['column'] in temp_df.columns:
+            temp_df = temp_df[temp_df[filter_info['column']] == filter_info['value']]
+
+    # 2. Prepare display dataframe (keep raw gene columns for filtering/sorting)
     display_df = temp_df
-    
-    # Create URL columns for E2 and E3 UniProt IDs
+
+    # Create UniProt URL columns and rename primary ones
     e2_url_columns = add_uniprot_url_columns(display_df, 'E2_uniprot', 'E2')
     e3_url_columns = add_uniprot_url_columns(display_df, 'E3_uniprot', 'E3')
 
-    # Remove the original UniProt columns and rename URL columns to replace them
-    if 'E2_uniprot' in display_df.columns:
+    # If raw "E2_uniprot"/"E3_uniprot" are present and we generated URL columns, drop the raw to avoid name collisions,
+    # then rename the first URL column to the friendly name.
+    if e2_url_columns and 'E2_uniprot' in display_df.columns:
         display_df.drop('E2_uniprot', axis=1, inplace=True)
-    if 'E3_uniprot' in display_df.columns:
+    if e3_url_columns and 'E3_uniprot' in display_df.columns:
         display_df.drop('E3_uniprot', axis=1, inplace=True)
 
-    # Rename the first URL column for each protein type
     if e2_url_columns:
         display_df.rename(columns={e2_url_columns[0]: 'E2_uniprot'}, inplace=True)
-        e2_url_columns[0] = 'E2_uniprot'
     if e3_url_columns:
         display_df.rename(columns={e3_url_columns[0]: 'E3_uniprot'}, inplace=True)
-        e3_url_columns[0] = 'E3_uniprot'
 
-    # Reorder columns
+    # Create clickable gene link values for display (keep raw gene values in temp_df for filter/sort)
+    if 'E2_gene' in display_df.columns:
+        display_df['__E2_gene_link__'] = display_df['E2_gene'].apply(
+            lambda v: f"?filter_col=E2_gene&filter_val={quote_plus(str(v))}" if pd.notna(v) and str(v) != "" else ""
+        )
+        # drop raw display column and replace with link-named column
+        display_df.drop('E2_gene', axis=1, inplace=True)
+        display_df.rename(columns={'__E2_gene_link__': 'E2_gene'}, inplace=True)
+
+    if 'E3_gene' in display_df.columns:
+        display_df['__E3_gene_link__'] = display_df['E3_gene'].apply(
+            lambda v: f"?filter_col=E3_gene&filter_val={quote_plus(str(v))}" if pd.notna(v) and str(v) != "" else ""
+        )
+        display_df.drop('E3_gene', axis=1, inplace=True)
+        display_df.rename(columns={'__E3_gene_link__': 'E3_gene'}, inplace=True)
+
+    # Recompute the actual URL column lists (now includes renamed primary column)
+    e2_url_columns = [c for c in display_df.columns if c.startswith('E2_uniprot') or c.startswith('E2_URL')]
+    e3_url_columns = [c for c in display_df.columns if c.startswith('E3_uniprot') or c.startswith('E3_URL')]
+
+    # Ensure column names are unique (data_editor requires unique names).
+    def _ensure_unique_cols(df):
+        cols = df.columns.tolist()
+        if len(set(cols)) == len(cols):
+            return df
+        seen = {}
+        new_cols = []
+        for c in cols:
+            if c in seen:
+                seen[c] += 1
+                new_c = f"{c}_{seen[c]}"
+                while new_c in seen:
+                    seen[c] += 1
+                    new_c = f"{c}_{seen[c]}"
+                new_cols.append(new_c)
+                seen[new_c] = 1
+            else:
+                new_cols.append(c)
+                seen[c] = 1
+        df.columns = new_cols
+        return df
+
+    display_df = _ensure_unique_cols(display_df)
+
+    # Reorder so gene + its UniProt columns sit right after the first Complex column
     cols = display_df.columns.tolist()
-    uniprot_cols = []
-    if 'E2_uniprot' in cols:
-        cols.remove('E2_uniprot')
-        uniprot_cols.append('E2_uniprot')
-    if 'E3_uniprot' in cols:
-        cols.remove('E3_uniprot')
-        uniprot_cols.append('E3_uniprot')
-    for i, col in enumerate(uniprot_cols):
-        cols.insert(4 + i, col)
-    
+    desired_after_complex = []
+    if 'E2_gene' in display_df.columns:
+        desired_after_complex.extend(['E2_gene'] + [c for c in e2_url_columns if c in display_df.columns])
+    if 'E3_gene' in display_df.columns:
+        desired_after_complex.extend(['E3_gene'] + [c for c in e3_url_columns if c in display_df.columns])
+    if 'Complex' in cols and desired_after_complex:
+        insert_idx = cols.index('Complex') + 1
+        for c in desired_after_complex:
+            if c in cols:
+                cols.remove(c)
+        for c in desired_after_complex:
+            if c in display_df.columns:
+                cols.insert(insert_idx, c)
+                insert_idx += 1
     display_df = display_df[cols]
 
-    # Sort on initial load
+    # Sort on initial load (only when no gene_filter) using raw gene values from temp_df
     if not st.session_state.get('gene_filter') and 'gene_filter' not in st.session_state:
-        display_df = display_df.sort_values(by='E2_gene', ascending=True)
-
-    # Apply gene filter if exists
-    if 'gene_filter' in st.session_state:
-        filter_info = st.session_state['gene_filter']
-        display_df = display_df[display_df[filter_info['column']] == filter_info['value']]
+        if 'E2_gene' in temp_df.columns:
+            display_df = display_df.loc[temp_df.sort_values(by='E2_gene', ascending=True).index]
+        else:
+            display_df = display_df
 
     # Store in session state
     st.session_state['cached_display_df'] = display_df
     st.session_state['last_view_signature'] = view_signature
-    st.session_state['cached_e2_cols'] = e2_url_columns # Store these to config columns later
+    st.session_state['cached_e2_cols'] = e2_url_columns
     st.session_state['cached_e3_cols'] = e3_url_columns
-    
+
 else:
     # Use cached version - this preserves the dataframe object identity
     # preventing st.data_editor from resetting scroll
@@ -251,38 +332,53 @@ with col3:
 
 # Create column config for UniProt URL columns
 column_config = {
-    "Selected": st.column_config.CheckboxColumn()
+	"Selected": st.column_config.CheckboxColumn()
 }
 
+# Register gene columns as LinkColumn (clicks set query params handled earlier)
+if 'E2_gene' in display_df.columns:
+	column_config['E2_gene'] = st.column_config.LinkColumn(
+		"E2_gene",
+		display_text=r".*filter_val=([^&]+).*",
+		help="Click to filter by this E2 gene"
+	)
+if 'E3_gene' in display_df.columns:
+	column_config['E3_gene'] = st.column_config.LinkColumn(
+		"E3_gene",
+		display_text=r".*filter_val=([^&]+).*",
+		help="Click to filter by this E3 gene"
+	)
+
+# Register UniProt link columns
 if 'E2_uniprot' in e2_url_columns:
-    column_config['E2_uniprot'] = st.column_config.LinkColumn(
-        "E2_uniprot",
-        display_text="https://uniprot.org/uniprotkb/(.*)/entry",
-        help="Click to view E2 protein on UniProt"
-    )
+	column_config['E2_uniprot'] = st.column_config.LinkColumn(
+		"E2_uniprot",
+		display_text="https://uniprot.org/uniprotkb/(.*)/entry",
+		help="Click to view E2 protein on UniProt"
+	)
 
 if 'E3_uniprot' in e3_url_columns:
-    column_config['E3_uniprot'] = st.column_config.LinkColumn(
-        "E3_uniprot",
-        display_text="https://uniprot.org/uniprotkb/(.*)/entry",
-        help="Click to view E3 protein on UniProt"
-    )
+	column_config['E3_uniprot'] = st.column_config.LinkColumn(
+		"E3_uniprot",
+		display_text="https://uniprot.org/uniprotkb/(.*)/entry",
+		help="Click to view E3 protein on UniProt"
+	)
 
-for col in e2_url_columns[1:]: 
-    num = col.split('_')[-1]
-    column_config[col] = st.column_config.LinkColumn(
-        f"E2 UniProt_{num}",
-        display_text="https://uniprot.org/uniprotkb/(.*)/entry",
-        help="Click to view E2 protein on UniProt"
-    )
+for col in e2_url_columns[1:]:
+	num = col.split('_')[-1]
+	column_config[col] = st.column_config.LinkColumn(
+		f"E2 UniProt_{num}",
+		display_text="https://uniprot.org/uniprotkb/(.*)/entry",
+		help="Click to view E2 protein on UniProt"
+	)
 
 for col in e3_url_columns[1:]:
-    num = col.split('_')[-1]
-    column_config[col] = st.column_config.LinkColumn(
-        f"E3 UniProt_{num}",
-        display_text="https://uniprot.org/uniprotkb/(.*)/entry",
-        help="Click to view E3 protein on UniProt"
-    )
+	num = col.split('_')[-1]
+	column_config[col] = st.column_config.LinkColumn(
+		f"E3 UniProt_{num}",
+		display_text="https://uniprot.org/uniprotkb/(.*)/entry",
+		help="Click to view E3 protein on UniProt"
+	)
 
 
 # Callback to handle selection changes properly and synchronously
@@ -329,14 +425,40 @@ edited_df = st.data_editor(
     width='stretch',
     disabled=disabled_cols,
     key="browse_table",
-    on_change=on_table_edit
+    on_change=on_table_edit,  # removed unsupported selection_mode arg
 )
 
 # NOTE: Direct loop to update session state removed in favor of on_change callback.
 
-# Handle gene name filtering based on cell selection
-# Access selection from session state since data_editor returns the data, not the event
-selection_state = st.session_state.get("browse_table", {}).get("selection", {})
+# Simple row-selection-based filtering UI:
+browse_state = st.session_state.get("browse_table", {})
+selected_positions = browse_state.get("selected_rows", []) or []
+if selected_positions and len(selected_positions) == 1:
+    pos = selected_positions[0]
+    if isinstance(pos, int) and 0 <= pos < len(display_df):
+        row = display_df.iloc[pos]
+        c1, c2 = st.columns([1, 1])
+        with c1:
+            if 'E2_gene' in display_df.columns and st.button(f"Filter by E2: {row['E2_gene']}", key=f"filter_e2_{pos}"):
+                st.session_state['gene_filter'] = {'column': 'E2_gene', 'value': row['E2_gene']}
+                if "last_view_signature" in st.session_state:
+                    del st.session_state["last_view_signature"]
+                # clear selection to avoid repeated immediate UI
+                try:
+                    st.session_state["browse_table"]["selected_rows"] = []
+                except Exception:
+                    pass
+                st.rerun()
+        with c2:
+            if 'E3_gene' in display_df.columns and st.button(f"Filter by E3: {row['E3_gene']}", key=f"filter_e3_{pos}"):
+                st.session_state['gene_filter'] = {'column': 'E3_gene', 'value': row['E3_gene']}
+                if "last_view_signature" in st.session_state:
+                    del st.session_state["last_view_signature"]
+                try:
+                    st.session_state["browse_table"]["selected_rows"] = []
+                except Exception:
+                    pass
+                st.rerun()
 
 
 
