@@ -1,0 +1,350 @@
+data_XXXX
+# 
+loop_
+_audit_author.name 
+_audit_author.pdbx_ordinal 
+_audit_author.identifier_ORCID 
+"Ng, C."          1 ? 
+"Jackson, A.R."   2 ? 
+"Buschdorf, P.J." 3 ? 
+"Sun, Q."         4 ? 
+"Guy, R.G."       5 ? 
+"Sivaraman, J."   6 ? 
+# 
+_struct.entry_id                  XXXX 
+_struct.title                     "Crystal structure of c-Cbl-TKB domain complexed with its binding motif in Sprouty2" 
+_struct.pdbx_model_details        ? 
+_struct.pdbx_CASP_flag            ? 
+_struct.pdbx_model_type_details   ? 
+# 
+_struct_keywords.entry_id        XXXX 
+_struct_keywords.text            
+"ligase, signal transduction, proto-oncogene, complex, Cytoplasm, Developmental protein, Membrane, Microtubule, Polymorphism, Calcium, Metal-binding, Phosphoprotein, SH2 domain, Ubl conjugation pathway, Zinc, Zinc-finger" 
+_struct_keywords.pdbx_keywords   LIGASE 
+# 
+_exptl.crystals_number   1 
+_exptl.entry_id          XXXX 
+_exptl.method            "X-RAY DIFFRACTION" 
+# 
+_citation.id                        primary 
+_citation.title                     "Structural basis for a novel intrapeptidyl H-bond and reverse binding of c-Cbl-TKB domain substrates" 
+_citation.journal_abbrev            "Embo J." 
+_citation.journal_volume            27 
+_citation.page_first                804 
+_citation.page_last                 816 
+_citation.year                      2008 
+_citation.journal_id_ASTM           EMJODG 
+_citation.country                   UK 
+_citation.journal_id_ISSN           0261-4189 
+_citation.journal_id_CSD            0897 
+_citation.book_publisher            ? 
+_citation.pdbx_database_id_PubMed   18273061 
+_citation.pdbx_database_id_DOI      10.1038/emboj.2008.18 
+# 
+loop_
+_citation_author.citation_id 
+_citation_author.name 
+_citation_author.ordinal 
+_citation_author.identifier_ORCID 
+primary "Ng, C."          1 ? 
+primary "Jackson, R.A."   2 ? 
+primary "Buschdorf, J.P." 3 ? 
+primary "Sun, Q."         4 ? 
+primary "Guy, G.R."       5 ? 
+primary "Sivaraman, J."   6 ? 
+# 
+_entity_poly.entity_id                      1 
+_entity_poly.type                           "polypeptide(L)" 
+_entity_poly.nstd_linkage                   no 
+_entity_poly.nstd_monomer                   yes 
+_entity_poly.pdbx_seq_one_letter_code       "IRNTNE(PTR)TEGPTV" 
+_entity_poly.pdbx_seq_one_letter_code_can   IRNTNEYTEGPTV 
+_entity_poly.pdbx_strand_id                 A 
+_entity_poly.pdbx_target_identifier         ? 
+# 
+loop_
+_entity_poly_seq.entity_id 
+_entity_poly_seq.num 
+_entity_poly_seq.mon_id 
+_entity_poly_seq.hetero 
+1 1  ILE n 
+1 2  ARG n 
+1 3  ASN n 
+1 4  THR n 
+1 5  ASN n 
+1 6  GLU n 
+1 7  PTR n 
+1 8  THR n 
+1 9  GLU n 
+1 10 GLY n 
+1 11 PRO n 
+1 12 THR n 
+1 13 VAL n 
+# 
+loop_
+_entity.id 
+_entity.type 
+_entity.src_method 
+_entity.pdbx_description 
+_entity.formula_weight 
+_entity.pdbx_number_of_molecules 
+_entity.pdbx_ec 
+_entity.pdbx_mutation 
+_entity.pdbx_fragment 
+_entity.details 
+1 polymer man "Protein sprouty homolog 2" 1574.562 1  ? ? "UNP residues 49-61" ? 
+2 water   nat water                       18.015   14 ? ? ?                    ? 
+# 
+loop_
+_pdbx_poly_seq_scheme.asym_id 
+_pdbx_poly_seq_scheme.entity_id 
+_pdbx_poly_seq_scheme.seq_id 
+_pdbx_poly_seq_scheme.mon_id 
+_pdbx_poly_seq_scheme.ndb_seq_num 
+_pdbx_poly_seq_scheme.pdb_seq_num 
+_pdbx_poly_seq_scheme.auth_seq_num 
+_pdbx_poly_seq_scheme.pdb_mon_id 
+_pdbx_poly_seq_scheme.auth_mon_id 
+_pdbx_poly_seq_scheme.pdb_strand_id 
+_pdbx_poly_seq_scheme.pdb_ins_code 
+_pdbx_poly_seq_scheme.hetero 
+A 1 1  ILE 1  49 ?  ?   ?   A ? n 
+A 1 2  ARG 2  50 ?  ?   ?   A ? n 
+A 1 3  ASN 3  51 ?  ?   ?   A ? n 
+A 1 4  THR 4  52 52 THR THR A ? n 
+A 1 5  ASN 5  53 53 ASN ASN A ? n 
+A 1 6  GLU 6  54 54 GLU GLU A ? n 
+A 1 7  PTR 7  55 55 PTR PTR A ? n 
+A 1 8  THR 8  56 56 THR THR A ? n 
+A 1 9  GLU 9  57 57 GLU GLU A ? n 
+A 1 10 GLY 10 58 58 GLY GLY A ? n 
+A 1 11 PRO 11 59 59 PRO PRO A ? n 
+A 1 12 THR 12 60 60 THR THR A ? n 
+A 1 13 VAL 13 61 ?  ?   ?   A ? n 
+# 
+loop_
+_pdbx_nonpoly_scheme.asym_id 
+_pdbx_nonpoly_scheme.entity_id 
+_pdbx_nonpoly_scheme.mon_id 
+_pdbx_nonpoly_scheme.ndb_seq_num 
+_pdbx_nonpoly_scheme.pdb_seq_num 
+_pdbx_nonpoly_scheme.auth_seq_num 
+_pdbx_nonpoly_scheme.pdb_mon_id 
+_pdbx_nonpoly_scheme.auth_mon_id 
+_pdbx_nonpoly_scheme.pdb_strand_id 
+_pdbx_nonpoly_scheme.pdb_ins_code 
+C 2 HOH 1  62 11  HOH HOH A ? 
+C 2 HOH 2  63 22  HOH HOH A ? 
+C 2 HOH 3  64 27  HOH HOH A ? 
+C 2 HOH 4  65 53  HOH HOH A ? 
+C 2 HOH 5  66 72  HOH HOH A ? 
+C 2 HOH 6  67 77  HOH HOH A ? 
+C 2 HOH 7  68 92  HOH HOH A ? 
+C 2 HOH 8  69 99  HOH HOH A ? 
+C 2 HOH 9  70 123 HOH HOH A ? 
+C 2 HOH 10 71 132 HOH HOH A ? 
+C 2 HOH 11 72 176 HOH HOH A ? 
+C 2 HOH 12 73 239 HOH HOH A ? 
+C 2 HOH 13 74 256 HOH HOH A ? 
+C 2 HOH 14 75 268 HOH HOH A ? 
+# 
+loop_
+_chem_comp.id 
+_chem_comp.type 
+_chem_comp.mon_nstd_flag 
+_chem_comp.name 
+_chem_comp.pdbx_synonyms 
+_chem_comp.formula 
+_chem_comp.formula_weight 
+ALA "L-peptide linking" y ALANINE           ?                 "C3 H7 N O2"     89.093  
+ARG "L-peptide linking" y ARGININE          ?                 "C6 H15 N4 O2 1" 175.209 
+ASN "L-peptide linking" y ASPARAGINE        ?                 "C4 H8 N2 O3"    132.118 
+ASP "L-peptide linking" y "ASPARTIC ACID"   ?                 "C4 H7 N O4"     133.103 
+CYS "L-peptide linking" y CYSTEINE          ?                 "C3 H7 N O2 S"   121.158 
+GLN "L-peptide linking" y GLUTAMINE         ?                 "C5 H10 N2 O3"   146.144 
+GLU "L-peptide linking" y "GLUTAMIC ACID"   ?                 "C5 H9 N O4"     147.129 
+GLY "peptide linking"   y GLYCINE           ?                 "C2 H5 N O2"     75.067  
+HIS "L-peptide linking" y HISTIDINE         ?                 "C6 H10 N3 O2 1" 156.162 
+HOH non-polymer         . WATER             ?                 "H2 O"           18.015  
+ILE "L-peptide linking" y ISOLEUCINE        ?                 "C6 H13 N O2"    131.173 
+LEU "L-peptide linking" y LEUCINE           ?                 "C6 H13 N O2"    131.173 
+LYS "L-peptide linking" y LYSINE            ?                 "C6 H15 N2 O2 1" 147.195 
+MET "L-peptide linking" y METHIONINE        ?                 "C5 H11 N O2 S"  149.211 
+PHE "L-peptide linking" y PHENYLALANINE     ?                 "C9 H11 N O2"    165.189 
+PRO "L-peptide linking" y PROLINE           ?                 "C5 H9 N O2"     115.130 
+PTR "L-peptide linking" n O-PHOSPHOTYROSINE PHOSPHONOTYROSINE "C9 H12 N O6 P"  261.168 
+SER "L-peptide linking" y SERINE            ?                 "C3 H7 N O3"     105.093 
+THR "L-peptide linking" y THREONINE         ?                 "C4 H9 N O3"     119.119 
+TRP "L-peptide linking" y TRYPTOPHAN        ?                 "C11 H12 N2 O2"  204.225 
+TYR "L-peptide linking" y TYROSINE          ?                 "C9 H11 N O3"    181.189 
+VAL "L-peptide linking" y VALINE            ?                 "C5 H11 N O2"    117.146 
+# 
+loop_
+_struct_asym.id 
+_struct_asym.pdbx_blank_PDB_chainid_flag 
+_struct_asym.pdbx_modified 
+_struct_asym.entity_id 
+_struct_asym.details 
+A N N 1 ? 
+C N N 2 ? 
+# 
+_atom_sites.entry_id                    XXXX 
+_atom_sites.fract_transf_matrix[1][1]   0.008180 
+_atom_sites.fract_transf_matrix[1][2]   0.004722 
+_atom_sites.fract_transf_matrix[1][3]   0.000000 
+_atom_sites.fract_transf_matrix[2][1]   0.000000 
+_atom_sites.fract_transf_matrix[2][2]   0.009445 
+_atom_sites.fract_transf_matrix[2][3]   0.000000 
+_atom_sites.fract_transf_matrix[3][1]   0.000000 
+_atom_sites.fract_transf_matrix[3][2]   0.000000 
+_atom_sites.fract_transf_matrix[3][3]   0.018279 
+_atom_sites.fract_transf_vector[1]      0.00000 
+_atom_sites.fract_transf_vector[2]      0.00000 
+_atom_sites.fract_transf_vector[3]      0.00000 
+# 
+loop_
+_atom_type.symbol 
+C 
+N 
+O 
+P 
+S 
+# 
+_entry.id   XXXX 
+# 
+loop_
+_pdbx_chain_remapping.entity_id 
+_pdbx_chain_remapping.label_asym_id 
+_pdbx_chain_remapping.auth_asym_id 
+_pdbx_chain_remapping.orig_label_asym_id 
+_pdbx_chain_remapping.orig_auth_asym_id 
+_pdbx_chain_remapping.applied_operations 
+1 A A A A 1 
+2 C A C A 1 
+# 
+_pdbx_entity_nonpoly.entity_id   2 
+_pdbx_entity_nonpoly.name        water 
+_pdbx_entity_nonpoly.comp_id     HOH 
+# 
+loop_
+_pdbx_entity_remapping.entity_id 
+_pdbx_entity_remapping.orig_entity_id 
+1 1 
+2 3 
+# 
+loop_
+_atom_site.group_PDB 
+_atom_site.id 
+_atom_site.type_symbol 
+_atom_site.label_atom_id 
+_atom_site.label_alt_id 
+_atom_site.label_comp_id 
+_atom_site.label_asym_id 
+_atom_site.label_entity_id 
+_atom_site.label_seq_id 
+_atom_site.pdbx_PDB_ins_code 
+_atom_site.Cartn_x 
+_atom_site.Cartn_y 
+_atom_site.Cartn_z 
+_atom_site.occupancy 
+_atom_site.B_iso_or_equiv 
+_atom_site.Cartn_x_esd 
+_atom_site.Cartn_y_esd 
+_atom_site.Cartn_z_esd 
+_atom_site.occupancy_esd 
+_atom_site.B_iso_or_equiv_esd 
+_atom_site.pdbx_formal_charge 
+_atom_site.auth_seq_id 
+_atom_site.auth_comp_id 
+_atom_site.auth_asym_id 
+_atom_site.auth_atom_id 
+_atom_site.pdbx_PDB_model_num 
+ATOM   1  N N   . THR A 1 4  ? 64.538 39.029 -1.862  1.00 32.48 ? ? ? ? ? ? 52 THR A N   1 
+ATOM   2  C CA  . THR A 1 4  ? 65.024 38.928 -3.237  1.00 31.65 ? ? ? ? ? ? 52 THR A CA  1 
+ATOM   3  C C   . THR A 1 4  ? 64.613 40.106 -4.105  1.00 28.94 ? ? ? ? ? ? 52 THR A C   1 
+ATOM   4  O O   . THR A 1 4  ? 63.460 40.540 -4.059  1.00 28.84 ? ? ? ? ? ? 52 THR A O   1 
+ATOM   5  C CB  . THR A 1 4  ? 64.511 37.651 -3.926  1.00 34.21 ? ? ? ? ? ? 52 THR A CB  1 
+ATOM   6  O OG1 . THR A 1 4  ? 64.877 36.508 -3.138  1.00 38.20 ? ? ? ? ? ? 52 THR A OG1 1 
+ATOM   7  C CG2 . THR A 1 4  ? 65.125 37.515 -5.329  1.00 35.98 ? ? ? ? ? ? 52 THR A CG2 1 
+ATOM   8  N N   . ASN A 1 5  ? 65.547 40.633 -4.887  1.00 25.57 ? ? ? ? ? ? 53 ASN A N   1 
+ATOM   9  C CA  . ASN A 1 5  ? 65.208 41.746 -5.754  1.00 23.74 ? ? ? ? ? ? 53 ASN A CA  1 
+ATOM   10 C C   . ASN A 1 5  ? 64.547 41.255 -7.042  1.00 22.72 ? ? ? ? ? ? 53 ASN A C   1 
+ATOM   11 O O   . ASN A 1 5  ? 64.771 40.119 -7.469  1.00 20.10 ? ? ? ? ? ? 53 ASN A O   1 
+ATOM   12 C CB  . ASN A 1 5  ? 66.450 42.590 -6.061  1.00 23.47 ? ? ? ? ? ? 53 ASN A CB  1 
+ATOM   13 C CG  . ASN A 1 5  ? 67.053 43.239 -4.803  1.00 24.42 ? ? ? ? ? ? 53 ASN A CG  1 
+ATOM   14 O OD1 . ASN A 1 5  ? 66.351 43.916 -4.046  1.00 23.32 ? ? ? ? ? ? 53 ASN A OD1 1 
+ATOM   15 N ND2 . ASN A 1 5  ? 68.359 43.041 -4.591  1.00 22.11 ? ? ? ? ? ? 53 ASN A ND2 1 
+ATOM   16 N N   . GLU A 1 6  ? 63.712 42.081 -7.656  1.00 21.86 ? ? ? ? ? ? 54 GLU A N   1 
+ATOM   17 C CA  . GLU A 1 6  ? 63.049 41.619 -8.846  1.00 20.42 ? ? ? ? ? ? 54 GLU A CA  1 
+ATOM   18 C C   . GLU A 1 6  ? 63.821 41.708 -10.156 1.00 20.49 ? ? ? ? ? ? 54 GLU A C   1 
+ATOM   19 O O   . GLU A 1 6  ? 64.069 42.800 -10.669 1.00 18.51 ? ? ? ? ? ? 54 GLU A O   1 
+ATOM   20 C CB  . GLU A 1 6  ? 61.709 42.328 -9.056  1.00 21.57 ? ? ? ? ? ? 54 GLU A CB  1 
+ATOM   21 C CG  . GLU A 1 6  ? 61.335 42.331 -10.551 1.00 19.86 ? ? ? ? ? ? 54 GLU A CG  1 
+ATOM   22 C CD  . GLU A 1 6  ? 59.921 41.892 -10.861 1.00 19.86 ? ? ? ? ? ? 54 GLU A CD  1 
+ATOM   23 O OE1 . GLU A 1 6  ? 59.609 40.675 -10.825 1.00 19.86 ? ? ? ? ? ? 54 GLU A OE1 1 
+ATOM   24 O OE2 . GLU A 1 6  ? 59.102 42.777 -11.170 1.00 19.86 ? ? ? ? ? ? 54 GLU A OE2 1 
+HETATM 25 N N   . PTR A 1 7  ? 64.187 40.546 -10.684 1.00 19.84 ? ? ? ? ? ? 55 PTR A N   1 
+HETATM 26 C CA  . PTR A 1 7  ? 64.836 40.457 -11.969 1.00 20.65 ? ? ? ? ? ? 55 PTR A CA  1 
+HETATM 27 C C   . PTR A 1 7  ? 63.839 39.958 -12.993 1.00 22.71 ? ? ? ? ? ? 55 PTR A C   1 
+HETATM 28 O O   . PTR A 1 7  ? 63.202 38.928 -12.778 1.00 23.63 ? ? ? ? ? ? 55 PTR A O   1 
+HETATM 29 C CB  . PTR A 1 7  ? 66.033 39.521 -11.907 1.00 21.14 ? ? ? ? ? ? 55 PTR A CB  1 
+HETATM 30 C CG  . PTR A 1 7  ? 67.147 40.145 -11.115 1.00 19.20 ? ? ? ? ? ? 55 PTR A CG  1 
+HETATM 31 C CD1 . PTR A 1 7  ? 67.883 41.221 -11.658 1.00 21.25 ? ? ? ? ? ? 55 PTR A CD1 1 
+HETATM 32 C CD2 . PTR A 1 7  ? 67.455 39.651 -9.813  1.00 21.77 ? ? ? ? ? ? 55 PTR A CD2 1 
+HETATM 33 C CE1 . PTR A 1 7  ? 68.913 41.798 -10.904 1.00 18.78 ? ? ? ? ? ? 55 PTR A CE1 1 
+HETATM 34 C CE2 . PTR A 1 7  ? 68.488 40.215 -9.032  1.00 21.38 ? ? ? ? ? ? 55 PTR A CE2 1 
+HETATM 35 C CZ  . PTR A 1 7  ? 69.204 41.298 -9.612  1.00 20.00 ? ? ? ? ? ? 55 PTR A CZ  1 
+HETATM 36 O OH  . PTR A 1 7  ? 70.251 41.903 -8.837  1.00 19.88 ? ? ? ? ? ? 55 PTR A OH  1 
+HETATM 37 P P   . PTR A 1 7  ? 70.812 41.399 -7.384  1.00 16.84 ? ? ? ? ? ? 55 PTR A P   1 
+HETATM 38 O O1P . PTR A 1 7  ? 69.719 41.449 -6.427  1.00 19.77 ? ? ? ? ? ? 55 PTR A O1P 1 
+HETATM 39 O O2P . PTR A 1 7  ? 71.912 42.316 -6.970  1.00 16.73 ? ? ? ? ? ? 55 PTR A O2P 1 
+HETATM 40 O O3P . PTR A 1 7  ? 71.315 39.979 -7.488  1.00 17.32 ? ? ? ? ? ? 55 PTR A O3P 1 
+ATOM   41 N N   . THR A 1 8  ? 63.695 40.688 -14.094 1.00 21.50 ? ? ? ? ? ? 56 THR A N   1 
+ATOM   42 C CA  . THR A 1 8  ? 62.725 40.329 -15.101 1.00 21.21 ? ? ? ? ? ? 56 THR A CA  1 
+ATOM   43 C C   . THR A 1 8  ? 63.311 39.840 -16.430 1.00 22.26 ? ? ? ? ? ? 56 THR A C   1 
+ATOM   44 O O   . THR A 1 8  ? 64.469 40.069 -16.724 1.00 21.18 ? ? ? ? ? ? 56 THR A O   1 
+ATOM   45 C CB  . THR A 1 8  ? 61.776 41.530 -15.370 1.00 20.14 ? ? ? ? ? ? 56 THR A CB  1 
+ATOM   46 O OG1 . THR A 1 8  ? 62.543 42.736 -15.504 1.00 19.72 ? ? ? ? ? ? 56 THR A OG1 1 
+ATOM   47 C CG2 . THR A 1 8  ? 60.815 41.705 -14.216 1.00 19.26 ? ? ? ? ? ? 56 THR A CG2 1 
+ATOM   48 N N   . GLU A 1 9  ? 62.496 39.154 -17.218 1.00 22.51 ? ? ? ? ? ? 57 GLU A N   1 
+ATOM   49 C CA  . GLU A 1 9  ? 62.923 38.658 -18.512 1.00 24.48 ? ? ? ? ? ? 57 GLU A CA  1 
+ATOM   50 C C   . GLU A 1 9  ? 63.594 39.721 -19.395 1.00 24.43 ? ? ? ? ? ? 57 GLU A C   1 
+ATOM   51 O O   . GLU A 1 9  ? 63.222 40.900 -19.356 1.00 20.96 ? ? ? ? ? ? 57 GLU A O   1 
+ATOM   52 C CB  . GLU A 1 9  ? 61.722 38.068 -19.259 1.00 27.69 ? ? ? ? ? ? 57 GLU A CB  1 
+ATOM   53 C CG  . GLU A 1 9  ? 60.434 38.886 -19.119 1.00 32.35 ? ? ? ? ? ? 57 GLU A CG  1 
+ATOM   54 C CD  . GLU A 1 9  ? 59.251 38.212 -19.790 1.00 36.02 ? ? ? ? ? ? 57 GLU A CD  1 
+ATOM   55 O OE1 . GLU A 1 9  ? 59.265 36.963 -19.870 1.00 37.88 ? ? ? ? ? ? 57 GLU A OE1 1 
+ATOM   56 O OE2 . GLU A 1 9  ? 58.308 38.918 -20.225 1.00 37.76 ? ? ? ? ? ? 57 GLU A OE2 1 
+ATOM   57 N N   . GLY A 1 10 ? 64.581 39.303 -20.181 1.00 23.94 ? ? ? ? ? ? 58 GLY A N   1 
+ATOM   58 C CA  . GLY A 1 10 ? 65.265 40.239 -21.045 1.00 26.18 ? ? ? ? ? ? 58 GLY A CA  1 
+ATOM   59 C C   . GLY A 1 10 ? 64.301 40.896 -22.015 1.00 27.12 ? ? ? ? ? ? 58 GLY A C   1 
+ATOM   60 O O   . GLY A 1 10 ? 63.344 40.256 -22.488 1.00 25.88 ? ? ? ? ? ? 58 GLY A O   1 
+ATOM   61 N N   . PRO A 1 11 ? 64.534 42.178 -22.342 1.00 27.93 ? ? ? ? ? ? 59 PRO A N   1 
+ATOM   62 C CA  . PRO A 1 11 ? 63.697 42.954 -23.261 1.00 30.61 ? ? ? ? ? ? 59 PRO A CA  1 
+ATOM   63 C C   . PRO A 1 11 ? 63.571 42.278 -24.623 1.00 33.86 ? ? ? ? ? ? 59 PRO A C   1 
+ATOM   64 O O   . PRO A 1 11 ? 64.577 41.941 -25.247 1.00 34.96 ? ? ? ? ? ? 59 PRO A O   1 
+ATOM   65 C CB  . PRO A 1 11 ? 64.429 44.297 -23.371 1.00 31.60 ? ? ? ? ? ? 59 PRO A CB  1 
+ATOM   66 C CG  . PRO A 1 11 ? 65.302 44.348 -22.159 1.00 28.65 ? ? ? ? ? ? 59 PRO A CG  1 
+ATOM   67 C CD  . PRO A 1 11 ? 65.727 42.944 -21.940 1.00 28.84 ? ? ? ? ? ? 59 PRO A CD  1 
+ATOM   68 N N   . THR A 1 12 ? 62.320 42.093 -25.041 1.00 36.87 ? ? ? ? ? ? 60 THR A N   1 
+ATOM   69 C CA  . THR A 1 12 ? 61.914 41.486 -26.305 1.00 39.54 ? ? ? ? ? ? 60 THR A CA  1 
+ATOM   70 C C   . THR A 1 12 ? 62.618 40.200 -26.771 1.00 40.04 ? ? ? ? ? ? 60 THR A C   1 
+ATOM   71 O O   . THR A 1 12 ? 63.809 39.988 -26.533 1.00 42.52 ? ? ? ? ? ? 60 THR A O   1 
+ATOM   72 C CB  . THR A 1 12 ? 61.944 42.554 -27.414 1.00 39.13 ? ? ? ? ? ? 60 THR A CB  1 
+ATOM   73 O OG1 . THR A 1 12 ? 60.784 43.383 -27.271 1.00 37.53 ? ? ? ? ? ? 60 THR A OG1 1 
+ATOM   74 C CG2 . THR A 1 12 ? 61.942 41.934 -28.789 1.00 39.51 ? ? ? ? ? ? 60 THR A CG2 1 
+HETATM 75 O O   . HOH C 2 .  ? 71.965 44.298 -5.087  1.00 16.24 ? ? ? ? ? ? 62 HOH A O   1 
+HETATM 76 O O   . HOH C 2 .  ? 68.092 39.633 -5.324  1.00 23.57 ? ? ? ? ? ? 63 HOH A O   1 
+HETATM 77 O O   . HOH C 2 .  ? 63.034 44.004 -12.960 1.00 16.00 ? ? ? ? ? ? 64 HOH A O   1 
+HETATM 78 O O   . HOH C 2 .  ? 64.499 46.057 -4.159  1.00 32.60 ? ? ? ? ? ? 65 HOH A O   1 
+HETATM 79 O O   . HOH C 2 .  ? 60.343 42.865 -23.683 1.00 30.30 ? ? ? ? ? ? 66 HOH A O   1 
+HETATM 80 O O   . HOH C 2 .  ? 64.475 39.856 0.439   1.00 41.22 ? ? ? ? ? ? 67 HOH A O   1 
+HETATM 81 O O   . HOH C 2 .  ? 60.054 38.100 -16.261 1.00 47.02 ? ? ? ? ? ? 68 HOH A O   1 
+HETATM 82 O O   . HOH C 2 .  ? 61.979 37.941 -22.834 1.00 41.94 ? ? ? ? ? ? 69 HOH A O   1 
+HETATM 83 O O   . HOH C 2 .  ? 58.601 44.916 -26.851 1.00 40.14 ? ? ? ? ? ? 70 HOH A O   1 
+HETATM 84 O O   . HOH C 2 .  ? 56.128 39.133 -18.539 1.00 42.87 ? ? ? ? ? ? 71 HOH A O   1 
+HETATM 85 O O   . HOH C 2 .  ? 63.121 37.772 -29.805 1.00 48.25 ? ? ? ? ? ? 72 HOH A O   1 
+HETATM 86 O O   . HOH C 2 .  ? 62.821 44.327 -6.138  1.00 30.28 ? ? ? ? ? ? 73 HOH A O   1 
+HETATM 87 O O   . HOH C 2 .  ? 66.696 39.834 -24.278 1.00 43.07 ? ? ? ? ? ? 74 HOH A O   1 
+HETATM 88 O O   . HOH C 2 .  ? 63.885 37.781 -9.472  1.00 33.45 ? ? ? ? ? ? 75 HOH A O   1 
+# 
