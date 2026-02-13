@@ -19,6 +19,4 @@ with col2:
     show_3D_struc('util/resources/UB-E2-E3.pdb')
 
 
-st.write(' ')
-st.markdown('Jarboe, B., & Dunbrack, R. (2026). Structure–guided analysis and prediction of human E2–E3 ligase pairing specificity (p. 2026.02.10.700855). bioRxiv. https://doi.org/10.64898/2026.02.10.700855')
 
