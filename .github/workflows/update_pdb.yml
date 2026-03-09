@@ -32,9 +32,13 @@ jobs:
         run: |
           python update_pdb/scripts/update_pdb_e2_e3.py
 
-      - name: Download PDB files
+      - name: Download PDB files from RCSB
         run: |
           python update_pdb/scripts/download_pdb_files.py
+
+      - name: Download renumbered files from PDBrenum
+        run: |
+          python update_pdb/scripts/download_pdbrenum_files.py
 
       - name: Commit updated data
         run: |
