@@ -1,0 +1,18 @@
+[Unit]
+Description=Auto-update UbiqCore from GitHub
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=pisces
+WorkingDirectory=/home/brianna/apps/ubiqcore
+Environment=REPO_DIR=/home/brianna/apps/ubiqcore
+Environment=APP_SERVICE_NAME=ubiqcore-streamlit.service
+Environment=PYTHON_BIN=/usr/bin/python3
+ExecStart=/home/brianna/apps/ubiqcore/scripts/auto_update.sh
+
+# Hardening for an updater that only needs filesystem/network/systemctl.
+PrivateTmp=true
+ProtectSystem=full
+ProtectHome=false

@@ -1,0 +1,12 @@
+[Unit]
+Description=Run UbiqCore auto-update periodically
+
+[Timer]
+# Check twice per hour; randomize a bit to avoid synchronized bursts.
+OnCalendar=*:00,30
+RandomizedDelaySec=5m
+Persistent=true
+Unit=ubiqcore-autoupdate.service
+
+[Install]
+WantedBy=timers.target
