@@ -258,7 +258,7 @@ def download_selected_pdbs():
         return
     st.session_state['show_download_options'] = True
 
-def perform_download(index_list, file_choice):
+def perform_download(index_list, file_choice, file_source="rcsb"):
     # index_list: list of dataframe index labels corresponding to filtered_df
     progress_text = st.empty()
     progress_bar = st.progress(0)
@@ -266,7 +266,11 @@ def perform_download(index_list, file_choice):
     zip_buffer = io.BytesIO()
     missing_files = []
     found_files = 0
-    pdb_cache_dir = util.constants.filepaths.PDB_CIF_FILES
+    # Select cache directory based on source
+    if file_source == "pdbrenum":
+        pdb_cache_dir = util.constants.filepaths.PDBRENUM_CIF_FILES
+    else:
+        pdb_cache_dir = util.constants.filepaths.PDB_CIF_FILES
     with zipfile.ZipFile(zip_buffer, 'w', zipfile.ZIP_DEFLATED, False) as zip_file:
         for i, idx in enumerate(index_list):
             # Safely get PDB_ID and gene info from filtered_df
@@ -376,21 +380,33 @@ with col3:
 if st.session_state.get('show_download_options', False):
     selected_indices = st.session_state['pdb_selected_rows']
     selected_rows = display_df.loc[list(selected_indices)]
-    st.info("Choose which files to download for the selected structures:")
-    file_type = st.radio(
-        "Which files do you want to download?",
-        ["Asymmetric unit only (.cif)", "Biological assemblies only (-assembly1.cif)", "Both"],
-        key="download_file_type_radio"
-    )
+    st.info("Choose file source and format for the selected structures:")
+    
+    col1, col2 = st.columns(2)
+    with col1:
+        file_source = st.radio(
+            "PDB File Source",
+            options=["rcsb", "pdbrenum"],
+            format_func=lambda x: "RCSB PDB (standard)" if x == "rcsb" else "PDBrenum (renumbered)",
+            key="pdb_file_source_radio"
+        )
+    with col2:
+        file_type = st.radio(
+            "File Format",
+            ["Asymmetric unit only (.cif)", "Biological assemblies only (-assembly1.cif)", "Both"],
+            key="download_file_type_radio"
+        )
+    
     if file_type == "Asymmetric unit only (.cif)":
         file_choice = "asym"
     elif file_type == "Biological assemblies only (-assembly1.cif)":
         file_choice = "bio"
     else:
         file_choice = "both"
+    
     if st.button("Confirm and Download", key="confirm_download_btn"):
         st.session_state['show_download_options'] = False
-        perform_download(list(selected_indices), file_choice)
+        perform_download(list(selected_indices), file_choice, file_source=file_source)
     if st.button("Cancel", key="cancel_download_btn"):
         st.session_state['show_download_options'] = False
 
