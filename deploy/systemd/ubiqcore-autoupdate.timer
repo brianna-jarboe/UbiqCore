@@ -2,9 +2,9 @@
 Description=Run UbiqCore auto-update periodically
 
 [Timer]
-# Check twice per hour; randomize a bit to avoid synchronized bursts.
-OnCalendar=*:00,30
-RandomizedDelaySec=5m
+# Check once per day at 4 AM; randomize by up to 30 minutes.
+OnCalendar=*-*-* 04:00:00
+RandomizedDelaySec=30m
 Persistent=true
 Unit=ubiqcore-autoupdate.service
 
