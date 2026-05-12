@@ -44,6 +44,7 @@ jobs:
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
-          git add util/data/pdb_updates/
+          # Only add updater output files (CSV / logs). Do NOT add generated caches or PDB files.
+          git add util/data/pdb_updates/*.csv util/data/pdb_updates/*.log || true
           git commit -m "Weekly PDB E2–E3 update ($(date -u +%Y-%m-%d))" || echo "No changes to commit"
           git push
