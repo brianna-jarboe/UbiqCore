@@ -54,24 +54,23 @@ def get_pdb_ids_from_csv(csv_path: Path) -> set:
 	df = pd.read_csv(csv_path, usecols=["PDB_ID"])
 	return set(df["PDB_ID"].astype(str).str.upper())
 
-def download_and_decompress_file(url: str, dest: Path, session, logger, timeout: int = 120):
-	"""Download a gzipped file from URL and decompress to dest."""
+def copy_and_decompress_file(src: Path, dest: Path, logger):
+	"""Copy a gzipped file from local filesystem and decompress to dest."""
 	try:
-		resp = session.get(url, timeout=timeout)
-		if resp.status_code == 200:
+		if src.exists():
 			try:
-				decompressed = gzip.decompress(resp.content)
-				with open(dest, "wb") as f:
-					f.write(decompressed)
-				logger.info(f"Downloaded and decompressed: {dest.name}")
+				with gzip.open(src, 'rb') as f_in:
+					with open(dest, 'wb') as f_out:
+						f_out.write(f_in.read())
+				logger.info(f"Copied and decompressed: {dest.name}")
 				return True
 			except Exception as e:
-				logger.warning(f"Failed to decompress {url}: {e}")
+				logger.warning(f"Failed to decompress {src}: {e}")
 				return False
 		else:
-			logger.debug(f"Failed to download {url} (status {resp.status_code})")
+			logger.debug(f"Source file not found: {src}")
 	except Exception as e:
-		logger.debug(f"Exception downloading {url}: {e}")
+		logger.debug(f"Exception copying {src}: {e}")
 	return False
 
 def main():
@@ -91,29 +90,28 @@ def main():
 	pdb_ids = get_pdb_ids_from_csv(csv_path)
 	logger.info(f"Found {len(pdb_ids)} PDB IDs")
 
-	session = requests_retry_session()
-	pdbrenum_base = "https://dunbrack.fccc.edu/PDBrenum"
+	pdbrenum_base = Path("/var/www/dunbrack.fccc.edu/bulat_PDBrenum")
 
 	# Prepare download tasks
 	tasks = []
 	for pdb_id in sorted(pdb_ids):
 		pdb_id_lower = pdb_id.lower()
-		
+
 		# Asymmetric unit mmCIF (renumbered)
-		asym_cif_url = f"{pdbrenum_base}/output_mmCIF/{pdb_id_lower}_renum.cif.gz"
+		asym_cif_src = pdbrenum_base / "output_mmCIF" / f"{pdb_id_lower}_renum.cif.gz"
 		asym_cif_dest = cache_dir / f"{pdb_id}.cif"
-		
+
 		# Biological assembly mmCIF (renumbered, 1st assembly)
-		bio_cif_url = f"{pdbrenum_base}/output_mmCIF_assembly/{pdb_id_lower}-assembly1_renum.cif.gz"
+		bio_cif_src = pdbrenum_base / "output_mmCIF_assembly" / f"{pdb_id_lower}-assembly1_renum.cif.gz"
 		bio_cif_dest = cache_dir / f"{pdb_id}-assembly1.cif"
 
 		if not asym_cif_dest.exists():
-			tasks.append((asym_cif_url, asym_cif_dest, pdb_id, "asymmetric"))
+			tasks.append((asym_cif_src, asym_cif_dest, pdb_id, "asymmetric"))
 		else:
 			logger.debug(f"Already cached: {asym_cif_dest.name}")
 
 		if not bio_cif_dest.exists():
-			tasks.append((bio_cif_url, bio_cif_dest, pdb_id, "assembly"))
+			tasks.append((bio_cif_src, bio_cif_dest, pdb_id, "assembly"))
 		else:
 			logger.debug(f"Already cached: {bio_cif_dest.name}")
 
@@ -123,8 +121,8 @@ def main():
 	failed = 0
 	with ThreadPoolExecutor(max_workers=4) as executor:
 		futures = {
-			executor.submit(download_and_decompress_file, url, dest, session, logger): (pdb_id, file_type)
-			for url, dest, pdb_id, file_type in tasks
+			executor.submit(copy_and_decompress_file, src, dest, logger): (pdb_id, file_type)
+			for src, dest, pdb_id, file_type in tasks
 		}
 		for future in as_completed(futures):
 			pdb_id, file_type = futures[future]
