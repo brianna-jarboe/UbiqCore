@@ -76,8 +76,12 @@ def download_and_decompress_file(url: str, dest: Path, session, logger, timeout:
 
 def main():
 	project_dir = Path(__file__).resolve().parents[2]
-	results_dir = project_dir / "util" / "data" / "pdb_updates"
-	cache_dir = results_dir / "pdbrenum_file_cache"
+	if str(project_dir) not in sys.path:
+		sys.path.insert(0, str(project_dir))
+	import util.constants.filepaths as fp
+
+	results_dir = Path(fp.PDB_STRUCTURE_TABLE_FOLDER)
+	cache_dir = Path(fp.PDBRENUM_CIF_FILES)
 	log_dir = results_dir
 	cache_dir.mkdir(parents=True, exist_ok=True)
 	logger = setup_logging(log_dir)

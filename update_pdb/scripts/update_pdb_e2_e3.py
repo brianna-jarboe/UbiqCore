@@ -797,10 +797,15 @@ def save_results(
 
 def main():
     project_dir = Path(__file__).resolve().parents[2]
+    if str(project_dir) not in sys.path:
+        sys.path.insert(0, str(project_dir))
+    import util.constants.filepaths as fp
+
     e2_file = project_dir / "update_pdb" / "input_data" / "E2_list.txt"
     e3_file = project_dir / "update_pdb" / "input_data" / "E3_list.txt"
 
-    results_dir = project_dir / "util" / "data" / "pdb_updates"
+    results_dir = Path(fp.PDB_STRUCTURE_TABLE_FOLDER)
+    results_dir.mkdir(parents=True, exist_ok=True)
 
     logger, log_file = setup_logging(results_dir)
     logging.info(f"Logging to {log_file}")
