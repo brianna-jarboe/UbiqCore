@@ -11,24 +11,9 @@ def header(calling_page):
     # Apply global styles
     apply_global_styles()
     
-    # Optimize screen width detection with better caching and fallback
-    # We perform the check in the sidebar to prevent visual artifacts (white line) in the main view
-    if 'screen_width' not in st.session_state or st.session_state.screen_width is None:
-        with st.sidebar:
-            try:
-                st.session_state.screen_width = streamlit_js_eval(js_expressions='screen.width', key='SCR')
-            except:
-                st.session_state.screen_width = 1600  # Default fallback
-    
-    screen_width = st.session_state.screen_width or 1600  # Fallback if None
-    
-    # Default column values based on screen width
-    columns = [1, 15, 1]  # Default to desktop layout
-    
-    if screen_width < 1600:
-        columns = [0.2, 1.82, 20]
-    else:
-        columns = [0.4, 1, 15]
+    # Provide robust column sizes explicitly (so Streamlit handles responsiveness)
+    columns = [0.4, 1, 15]
+
     # menu container
     banner_container = st.container(key="banner_container")
 

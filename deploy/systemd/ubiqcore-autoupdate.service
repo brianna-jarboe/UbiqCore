@@ -9,7 +9,7 @@ User=pisces
 WorkingDirectory=/home/brianna/apps/ubiqcore
 Environment=REPO_DIR=/home/brianna/apps/ubiqcore
 Environment=APP_SERVICE_NAME=ubiqcore-streamlit.service
-Environment=PYTHON_BIN=/usr/bin/python3
+Environment=PYTHON_BIN=/home/brianna/miniconda3/envs/base/bin/python
 Environment=UBIQCORE_DATA_DIR=/home/brianna/data/ubiqcore
 ExecStart=/home/brianna/apps/ubiqcore/scripts/auto_update.sh
 

@@ -115,7 +115,7 @@ if st.session_state.get('deselect_all_trigger'):
     st.session_state['deselect_all_trigger'] = False
     if "browse_table" in st.session_state:
         del st.session_state["browse_table"]
-    streamlit_js_eval(js_expressions="parent.window.location.reload()")
+    st.rerun()
 
 # Prepare URL columns function (defined outside rewrite block for cleanliness)
 def add_uniprot_url_columns(df, id_column, prefix):
@@ -266,6 +266,10 @@ def download_selected_complexes():
     selected_indices = st.session_state['selected_rows']
     if not selected_indices:
         st.warning("No complexes selected. Please select at least one complex from the table.")
+        return
+        
+    if len(selected_indices) > 50:
+        st.error(f"You have selected {len(selected_indices)} complexes. Bulk downloading is limited to 50 items at a time to prevent server memory issues. Please reduce your selection.")
         return
     
     selected_complexes = filtered_df.loc[list(selected_indices), 'Complex'].tolist()

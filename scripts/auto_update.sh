@@ -20,13 +20,7 @@ restart_and_check_service() {
     return 0
   fi
 
-  # 2) Try sudo non-interactive for system service.
-  if sudo -n systemctl restart "$APP_SERVICE_NAME" 2>/dev/null && sudo -n systemctl is-active --quiet "$APP_SERVICE_NAME" 2>/dev/null; then
-    log "Service restart succeeded via sudo -n systemctl"
-    return 0
-  fi
-
-  # 3) Try user service as fallback.
+  # 2) Try user service as fallback.
   if systemctl --user restart "$APP_SERVICE_NAME" 2>/dev/null && systemctl --user is-active --quiet "$APP_SERVICE_NAME" 2>/dev/null; then
     log "Service restart succeeded via systemctl --user"
     return 0

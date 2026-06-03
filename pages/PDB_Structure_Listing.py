@@ -86,14 +86,10 @@ if st.session_state.get('pdb_deselect_all_trigger'):
     st.session_state['pdb_deselect_all_trigger'] = False
     if "pdb_table" in st.session_state:
         del st.session_state["pdb_table"]
-    # Force a full page reload to ensure the data_editor clears its visual selections
-    try:
-        streamlit_js_eval(js_expressions="parent.window.location.reload()")
-    except Exception:
-        # If streamlit_js_eval is not available or fails, trigger a rerun as fallback
-        if "pdb_last_view_signature" in st.session_state:
-            del st.session_state["pdb_last_view_signature"]
-        st.rerun()
+    
+    if "pdb_last_view_signature" in st.session_state:
+        del st.session_state["pdb_last_view_signature"]
+    st.rerun()
 
 # --- REBUILD logic ---
 def add_url_columns(df, id_column, prefix):
